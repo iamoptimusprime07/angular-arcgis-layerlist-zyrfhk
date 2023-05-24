@@ -70,6 +70,8 @@ export class esriZoomLevelComponent implements OnInit {
 
       'esri/views/MapView',
 
+      'esri/symbols/PictureMarkerSymbol',
+
       'esri/geometry/Multipoint',
 
       'esri/geometry/Extent',
@@ -84,6 +86,8 @@ export class esriZoomLevelComponent implements OnInit {
         webMap,
 
         MapView,
+
+        PictureMarkerSymbol,
 
         Multipoint,
 
@@ -158,111 +162,171 @@ export class esriZoomLevelComponent implements OnInit {
 
             const scaleChanged = (event) => {
               //division level
+
               if (this.view.scale == 18489297.737236) {
                 this.layerDivisionGraphic['graphics'].removeAll();
-                console.log('division::::');
 
-                this.divisionListData.forEach((item) => {
-                  console.log('item:::', item);
+                if (this.divisionListData.length > 0) {
+                  this.divisionListData.forEach((item) => {
+                    let textSymbol = {
+                      type: 'text',
 
-                  let textSymbol = {
-                    type: 'text',
+                      color: 'red',
 
-                    color: 'red',
+                      text: item['divisionCMPCount'],
+                    };
 
-                    text: item['divisionCMPCount'],
-                  };
+                    let picSymbol = new PictureMarkerSymbol(
+                      'assets/lightgreenPin.png'
+                    );
 
-                  let point = new Point({
-                    x: item['point_X'],
+                    picSymbol.width = '30px';
 
-                    y: item['point_Y'],
+                    picSymbol.height = '30px';
 
-                    spatialReference: { wkid: 3857 },
+                    console.log(picSymbol);
+
+                    if (item['point_X'] && item['point_Y']) {
+                      let point = new Point({
+                        x: item['point_X'],
+
+                        y: item['point_Y'],
+
+                        spatialReference: { wkid: 3857 },
+                      });
+
+                      let divgraphicsPic = new Graphic(point, picSymbol);
+
+                      let divgraphics = new Graphic(point, textSymbol);
+
+                      // this.layerDivisionGraphic.addMany([
+
+                      //   divgraphicsPic,
+
+                      //   divgraphics,
+
+                      // ]);
+
+                      this.layerDivisionGraphic.add(divgraphicsPic);
+
+                      this.layerDivisionGraphic.add(divgraphics);
+
+                      this.layerDivisionGraphic['visible'] = true;
+
+                      this.layerSubDivisionGraphic['visible'] = false;
+
+                      this.layerCMPGraphic['visible'] = false;
+                    }
                   });
-
-                  let divgraphics = new Graphic(point, textSymbol);
-
-                  this.layerDivisionGraphic.add(divgraphics);
-
-                  this.layerDivisionGraphic['visible'] = true;
-                  this.layerSubDivisionGraphic['visible'] = false;
-                  this.layerCMPGraphic['visible'] = false;
-                });
+                }
               }
 
               //subdivision level
+
               if (this.view.scale == 9244648.868618) {
                 this.layerSubDivisionGraphic['graphics'].removeAll();
-                this.subDivisionListData.forEach((item) => {
-                  console.log('item:::', item);
 
-                  let textSymbol = {
-                    type: 'text',
+                if (this.subDivisionListData.length > 0) {
+                  this.subDivisionListData.forEach((item) => {
+                    console.log('item:::', item);
 
-                    color: 'blue',
+                    let textSymbol = {
+                      type: 'text',
 
-                    text: item['subDivisionCMPCount'],
-                  };
+                      color: 'blue',
 
-                  let point = new Point({
-                    x: item['point_X'],
+                      text: item['subDivisionCMPCount'],
+                    };
 
-                    y: item['point_Y'],
+                    let picSymbol = new PictureMarkerSymbol(
+                      '../../assets/images/redPin.png'
+                    );
 
-                    spatialReference: { wkid: 3857 },
+                    picSymbol.width = '30px';
+
+                    picSymbol.height = '30px';
+
+                    if (item['point_X'] && item['point_Y']) {
+                      let point = new Point({
+                        x: item['point_X'],
+
+                        y: item['point_Y'],
+
+                        spatialReference: { wkid: 3857 },
+                      });
+
+                      let subdivgraphics = new Graphic(point, textSymbol);
+
+                      let subdivgraphicsPic = new Graphic(point, picSymbol);
+
+                      this.layerSubDivisionGraphic.addMany([
+                        subdivgraphics,
+
+                        subdivgraphicsPic,
+                      ]);
+
+                      this.layerDivisionGraphic['visible'] = false;
+
+                      this.layerSubDivisionGraphic['visible'] = true;
+
+                      this.layerCMPGraphic['visible'] = false;
+                    }
                   });
-
-                  let subdivgraphics = new Graphic(point, textSymbol);
-
-                  this.layerSubDivisionGraphic.add(subdivgraphics);
-
-                  this.layerDivisionGraphic['visible'] = false;
-                  this.layerSubDivisionGraphic['visible'] = true;
-                  this.layerCMPGraphic['visible'] = false;
-                });
+                }
               }
 
               //cmp points
+
               if (this.view.scale == 2311162.2171545) {
                 this.layerCMPGraphic['graphics'].removeAll();
-                this.cmpData.forEach((item) => {
-                  console.log('item:::', item);
 
-                  let textSymbol = {
-                    type: 'text',
+                if (this.cmpData.length > 0) {
+                  this.cmpData.forEach((item) => {
+                    console.log('item:::', item);
 
-                    color: 'green',
+                    let textSymbol = {
+                      type: 'text',
 
-                    text: item['prjUid'],
-                  };
+                      color: 'green',
 
-                  let symbol = new this.pictureMarkerSymbol(
-                    '../../assets/Image/subdivExtent.png'
-                  );
-                  symbol.width = '30px';
-                  symbol.height = '30px';
+                      text: item['prjUid'],
+                    };
 
-                  let point = new Point({
-                    x: item['point_X'],
+                    let picSymbol = new PictureMarkerSymbol(
+                      '../../assets/images/subdivExtent.png'
+                    );
 
-                    y: item['point_Y'],
+                    picSymbol.width = '30px';
 
-                    spatialReference: { wkid: 3857 },
+                    picSymbol.height = '30px';
+
+                    if (item['point_X'] && item['point_Y']) {
+                      let point = new Point({
+                        x: item['point_X'],
+
+                        y: item['point_Y'],
+
+                        spatialReference: { wkid: 3857 },
+                      });
+
+                      let cmpgraphics = new Graphic(point, textSymbol);
+
+                      let cmpgraphicsPic = new Graphic(point, picSymbol);
+
+                      this.layerCMPGraphic.addMany([
+                        cmpgraphics,
+
+                        cmpgraphicsPic,
+                      ]);
+
+                      this.layerDivisionGraphic['visible'] = false;
+
+                      this.layerSubDivisionGraphic['visible'] = false;
+
+                      this.layerCMPGraphic['visible'] = true;
+                    }
                   });
-
-                  let cmpgraphics = new Graphic(point, textSymbol);
-
-                  this.layerCMPGraphic.add(cmpgraphics);
-
-                  this.layerDivisionGraphic['visible'] = false;
-                  this.layerSubDivisionGraphic['visible'] = false;
-                  this.layerCMPGraphic['visible'] = true;
-                });
-              }
-
-              if (this.view.scale < 18489298) {
-                console.log('subdivision::::');
+                }
               }
             };
 
