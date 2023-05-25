@@ -30,6 +30,8 @@ export class esriZoomLevelComponent implements OnInit {
 
   layerCMPGraphic: any;
 
+  math = Math;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -67,37 +69,25 @@ export class esriZoomLevelComponent implements OnInit {
   esriFunction() {
     loadModules([
       'esri/WebMap',
-
       'esri/views/MapView',
-
       'esri/symbols/PictureMarkerSymbol',
-
       'esri/geometry/Multipoint',
-
       'esri/geometry/Extent',
-
       'esri/layers/GraphicsLayer',
-
       'esri/geometry/Point',
-
       'esri/Graphic',
+      'esri/widgets/ScaleBar',
     ]).then(
       ([
         webMap,
-
         MapView,
-
         PictureMarkerSymbol,
-
         Multipoint,
-
         Extent,
-
         GraphicsLayer,
-
         Point,
-
         Graphic,
+        ScaleBar,
       ]) => {
         const map = new webMap({
           portalItem: {
@@ -110,37 +100,28 @@ export class esriZoomLevelComponent implements OnInit {
         map.load().then(() => {
           this.view = new MapView({
             map: map,
-
             container: 'viewDiv',
           });
 
           map.when(() => {
             this.layerDivisionGraphic = new GraphicsLayer();
-
             this.layerSubDivisionGraphic = new GraphicsLayer();
-
             this.layerCMPGraphic = new GraphicsLayer();
 
-            this.layerDivisionGraphic.minScale = 18489297;18489298
+            this.layerDivisionGraphic.minScale = 300000000;
+            this.layerDivisionGraphic.maxScale = 18400000;
 
-            this.layerDivisionGraphic.maxScale = 18389297;
+            this.layerSubDivisionGraphic.minScale = 9300000;
+            this.layerSubDivisionGraphic.maxScale = 4600000;
 
-            this.layerSubDivisionGraphic.minScale = 9244648;
-
-            this.layerSubDivisionGraphic.maxScale = 4622324;
-
-            this.layerCMPGraphic.minScale = 2311162;
-
+            this.layerCMPGraphic.minScale = 2600000;
             this.layerCMPGraphic.maxScale = 70;
 
             this.view.map.add(this.layerDivisionGraphic);
-
             this.view.map.add(this.layerSubDivisionGraphic);
-
             this.view.map.add(this.layerCMPGraphic);
 
             //'heading-for-map' id is refer as string over here
-
             this.view.ui.add('heading-for-map', 'top-right');
 
             let pointExtentList = [
@@ -150,17 +131,11 @@ export class esriZoomLevelComponent implements OnInit {
 
             let multipoint = new Multipoint(pointExtentList);
 
-            // console.log(multipoint);
-
             let extent = new Extent({
               xmin: multipoint['extent']['xmin'],
-
               ymin: multipoint['extent']['ymin'],
-
               xmax: multipoint['extent']['xmax'],
-
               ymax: multipoint['extent']['ymax'],
-
               spatialReference: {
                 wkid: 3857,
               },
@@ -168,15 +143,11 @@ export class esriZoomLevelComponent implements OnInit {
 
             this.view.goTo(extent);
 
-            const displayTrac = (event) => {
-              //console.log(event.mapPoint);
-            };
+            const displayTrac = (event) => {};
 
             const scaleChanged = (event) => {
               //division level
-
-              //if (this.view.scale == 18489297.737236) { 
-
+              //18489297.737236
               if (this.divisionListData.length > 0) {
                 this.layerDivisionGraphic['graphics'].removeAll();
                 this.divisionListData.forEach((item) => {
@@ -196,7 +167,7 @@ export class esriZoomLevelComponent implements OnInit {
 
                   picSymbol.height = '30px';
 
-                  console.log(picSymbol);
+                  //console.log(picSymbol);
 
                   if (item['point_X'] && item['point_Y']) {
                     let point = new Point({
@@ -223,6 +194,8 @@ export class esriZoomLevelComponent implements OnInit {
 
                     this.layerDivisionGraphic.add(divgraphics);
 
+                    console.log('Graphics::::', this.layerDivisionGraphic);
+
                     //this.layerDivisionGraphic['visible'] = true;
 
                     //this.layerSubDivisionGraphic['visible'] = false;
@@ -231,16 +204,13 @@ export class esriZoomLevelComponent implements OnInit {
                   }
                 });
               }
-              //}
 
               //subdivision level
-
-              //if (this.view.scale == 9244648.868618) {
-
+              //9244648.868618
               if (this.subDivisionListData.length > 0) {
                 this.layerSubDivisionGraphic['graphics'].removeAll();
                 this.subDivisionListData.forEach((item) => {
-                  console.log('item:::', item);
+                  // console.log('item:::', item);
 
                   let textSymbol = {
                     type: 'text',
@@ -288,13 +258,11 @@ export class esriZoomLevelComponent implements OnInit {
               //}
 
               //cmp points
-
-              //if (this.view.scale == 2311162.2171545) {
-
+              //2311162.2171545
               if (this.cmpData && this.cmpData.length > 0) {
                 this.layerCMPGraphic['graphics'].removeAll();
                 this.cmpData.forEach((item) => {
-                  console.log('item:::', item);
+                  //console.log('item:::', item);
 
                   let textSymbol = {
                     type: 'text',
@@ -335,7 +303,6 @@ export class esriZoomLevelComponent implements OnInit {
                   }
                 });
               }
-              // }
             };
 
             this.view.on('click', displayTrac);
@@ -344,12 +311,23 @@ export class esriZoomLevelComponent implements OnInit {
 
             this.view.watch('zoom', scaleChanged);
 
-            if (this.view.scale == 18489297.737236) {
-              console.log('division::::');
-            }
+            //To show the scale of map
+            let scaleBar = new ScaleBar({
+              view: this.view,
+              unit: 'metric',
+            });
+
+            this.view.ui.add(scaleBar, {
+              position: 'bottom-left',
+            });
           });
         });
       }
     );
   }
 }
+
+//milepost marker
+//top subdivision navigation //
+//zoom out from map
+///Move MAP show all suba and cmp

@@ -7,12 +7,14 @@
   id="heading-for-map"
   style="padding: 20px; background-color: rgb(235, 227, 227)"
 >
-  <h1>Zoom level: {{ view?.zoom }}</h1>
+  <p>Zoom level: {{ view?.zoom }}</p>
    
-  <h3>Screen Resolution : {{ screenWidth }}/{{ screenHeight }}</h3>
+  <p>Screen Resolution : {{ screenWidth }}/{{ screenHeight }}</p>
 
    
-  <h1 *ngIf="view?.scale">
-    Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
-  </h1>
+  <!-- <h1 *ngIf="view?.scale">
+  Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
+</h1> -->
+
+  <p *ngIf="view?.scale">Scale1:  {{ math.trunc(view?.scale) }}</p>
 </div>
