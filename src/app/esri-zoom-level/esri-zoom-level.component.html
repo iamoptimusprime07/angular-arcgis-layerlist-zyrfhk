@@ -12,5 +12,7 @@
   <h3>Screen Resolution : {{ screenWidth }}/{{ screenHeight }}</h3>
 
    
-  <h1>Scale: {{ view?.scale }}</h1>
+  <h1 *ngIf="view?.scale">
+    Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
+  </h1>
 </div>

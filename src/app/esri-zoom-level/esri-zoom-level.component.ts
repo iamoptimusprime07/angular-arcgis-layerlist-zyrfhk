@@ -121,6 +121,18 @@ export class esriZoomLevelComponent implements OnInit {
 
             this.layerCMPGraphic = new GraphicsLayer();
 
+            this.layerDivisionGraphic.minScale = 18489297;18489298
+
+            this.layerDivisionGraphic.maxScale = 18389297;
+
+            this.layerSubDivisionGraphic.minScale = 9244648;
+
+            this.layerSubDivisionGraphic.maxScale = 4622324;
+
+            this.layerCMPGraphic.minScale = 2311162;
+
+            this.layerCMPGraphic.maxScale = 70;
+
             this.view.map.add(this.layerDivisionGraphic);
 
             this.view.map.add(this.layerSubDivisionGraphic);
@@ -163,171 +175,167 @@ export class esriZoomLevelComponent implements OnInit {
             const scaleChanged = (event) => {
               //division level
 
-              if (this.view.scale == 18489297.737236) {
+              //if (this.view.scale == 18489297.737236) { 
+
+              if (this.divisionListData.length > 0) {
                 this.layerDivisionGraphic['graphics'].removeAll();
+                this.divisionListData.forEach((item) => {
+                  let textSymbol = {
+                    type: 'text',
 
-                if (this.divisionListData.length > 0) {
-                  this.divisionListData.forEach((item) => {
-                    let textSymbol = {
-                      type: 'text',
+                    color: 'red',
 
-                      color: 'red',
+                    text: item['divisionCMPCount'],
+                  };
 
-                      text: item['divisionCMPCount'],
-                    };
+                  let picSymbol = new PictureMarkerSymbol(
+                    'assets/lightgreenPin.png'
+                  );
 
-                    let picSymbol = new PictureMarkerSymbol(
-                      'assets/lightgreenPin.png'
-                    );
+                  picSymbol.width = '30px';
 
-                    picSymbol.width = '30px';
+                  picSymbol.height = '30px';
 
-                    picSymbol.height = '30px';
+                  console.log(picSymbol);
 
-                    console.log(picSymbol);
+                  if (item['point_X'] && item['point_Y']) {
+                    let point = new Point({
+                      x: item['point_X'],
 
-                    if (item['point_X'] && item['point_Y']) {
-                      let point = new Point({
-                        x: item['point_X'],
+                      y: item['point_Y'],
 
-                        y: item['point_Y'],
+                      spatialReference: { wkid: 3857 },
+                    });
 
-                        spatialReference: { wkid: 3857 },
-                      });
+                    let divgraphicsPic = new Graphic(point, picSymbol);
 
-                      let divgraphicsPic = new Graphic(point, picSymbol);
+                    let divgraphics = new Graphic(point, textSymbol);
 
-                      let divgraphics = new Graphic(point, textSymbol);
+                    // this.layerDivisionGraphic.addMany([
 
-                      // this.layerDivisionGraphic.addMany([
+                    //   divgraphicsPic,
 
-                      //   divgraphicsPic,
+                    //   divgraphics,
 
-                      //   divgraphics,
+                    // ]);
 
-                      // ]);
+                    this.layerDivisionGraphic.add(divgraphicsPic);
 
-                      this.layerDivisionGraphic.add(divgraphicsPic);
+                    this.layerDivisionGraphic.add(divgraphics);
 
-                      this.layerDivisionGraphic.add(divgraphics);
+                    //this.layerDivisionGraphic['visible'] = true;
 
-                      this.layerDivisionGraphic['visible'] = true;
+                    //this.layerSubDivisionGraphic['visible'] = false;
 
-                      this.layerSubDivisionGraphic['visible'] = false;
-
-                      this.layerCMPGraphic['visible'] = false;
-                    }
-                  });
-                }
+                    //this.layerCMPGraphic['visible'] = false;
+                  }
+                });
               }
+              //}
 
               //subdivision level
 
-              if (this.view.scale == 9244648.868618) {
+              //if (this.view.scale == 9244648.868618) {
+
+              if (this.subDivisionListData.length > 0) {
                 this.layerSubDivisionGraphic['graphics'].removeAll();
+                this.subDivisionListData.forEach((item) => {
+                  console.log('item:::', item);
 
-                if (this.subDivisionListData.length > 0) {
-                  this.subDivisionListData.forEach((item) => {
-                    console.log('item:::', item);
+                  let textSymbol = {
+                    type: 'text',
 
-                    let textSymbol = {
-                      type: 'text',
+                    color: 'blue',
 
-                      color: 'blue',
+                    text: item['subDivisionCMPCount'],
+                  };
 
-                      text: item['subDivisionCMPCount'],
-                    };
+                  let picSymbol = new PictureMarkerSymbol(
+                    '../../assets/images/redPin.png'
+                  );
 
-                    let picSymbol = new PictureMarkerSymbol(
-                      '../../assets/images/redPin.png'
-                    );
+                  picSymbol.width = '30px';
 
-                    picSymbol.width = '30px';
+                  picSymbol.height = '30px';
 
-                    picSymbol.height = '30px';
+                  if (item['point_X'] && item['point_Y']) {
+                    let point = new Point({
+                      x: item['point_X'],
 
-                    if (item['point_X'] && item['point_Y']) {
-                      let point = new Point({
-                        x: item['point_X'],
+                      y: item['point_Y'],
 
-                        y: item['point_Y'],
+                      spatialReference: { wkid: 3857 },
+                    });
 
-                        spatialReference: { wkid: 3857 },
-                      });
+                    let subdivgraphics = new Graphic(point, textSymbol);
 
-                      let subdivgraphics = new Graphic(point, textSymbol);
+                    let subdivgraphicsPic = new Graphic(point, picSymbol);
 
-                      let subdivgraphicsPic = new Graphic(point, picSymbol);
+                    this.layerSubDivisionGraphic.addMany([
+                      subdivgraphics,
 
-                      this.layerSubDivisionGraphic.addMany([
-                        subdivgraphics,
+                      subdivgraphicsPic,
+                    ]);
 
-                        subdivgraphicsPic,
-                      ]);
+                    //this.layerDivisionGraphic['visible'] = false;
 
-                      this.layerDivisionGraphic['visible'] = false;
+                    //this.layerSubDivisionGraphic['visible'] = true;
 
-                      this.layerSubDivisionGraphic['visible'] = true;
-
-                      this.layerCMPGraphic['visible'] = false;
-                    }
-                  });
-                }
+                    //this.layerCMPGraphic['visible'] = false;
+                  }
+                });
               }
+              //}
 
               //cmp points
 
-              if (this.view.scale == 2311162.2171545) {
+              //if (this.view.scale == 2311162.2171545) {
+
+              if (this.cmpData && this.cmpData.length > 0) {
                 this.layerCMPGraphic['graphics'].removeAll();
+                this.cmpData.forEach((item) => {
+                  console.log('item:::', item);
 
-                if (this.cmpData.length > 0) {
-                  this.cmpData.forEach((item) => {
-                    console.log('item:::', item);
+                  let textSymbol = {
+                    type: 'text',
 
-                    let textSymbol = {
-                      type: 'text',
+                    color: 'green',
 
-                      color: 'green',
+                    text: item['prjUid'],
+                  };
 
-                      text: item['prjUid'],
-                    };
+                  let picSymbol = new PictureMarkerSymbol(
+                    '../../assets/images/subdivExtent.png'
+                  );
 
-                    let picSymbol = new PictureMarkerSymbol(
-                      '../../assets/images/subdivExtent.png'
-                    );
+                  picSymbol.width = '30px';
 
-                    picSymbol.width = '30px';
+                  picSymbol.height = '30px';
 
-                    picSymbol.height = '30px';
+                  if (item['point_X'] && item['point_Y']) {
+                    let point = new Point({
+                      x: item['point_X'],
 
-                    if (item['point_X'] && item['point_Y']) {
-                      let point = new Point({
-                        x: item['point_X'],
+                      y: item['point_Y'],
 
-                        y: item['point_Y'],
+                      spatialReference: { wkid: 3857 },
+                    });
 
-                        spatialReference: { wkid: 3857 },
-                      });
+                    let cmpgraphics = new Graphic(point, textSymbol);
 
-                      let cmpgraphics = new Graphic(point, textSymbol);
+                    let cmpgraphicsPic = new Graphic(point, picSymbol);
 
-                      let cmpgraphicsPic = new Graphic(point, picSymbol);
+                    this.layerCMPGraphic.addMany([cmpgraphics, cmpgraphicsPic]);
 
-                      this.layerCMPGraphic.addMany([
-                        cmpgraphics,
+                    //this.layerDivisionGraphic['visible'] = false;
 
-                        cmpgraphicsPic,
-                      ]);
+                    //this.layerSubDivisionGraphic['visible'] = false;
 
-                      this.layerDivisionGraphic['visible'] = false;
-
-                      this.layerSubDivisionGraphic['visible'] = false;
-
-                      this.layerCMPGraphic['visible'] = true;
-                    }
-                  });
-                }
+                    //this.layerCMPGraphic['visible'] = true;
+                  }
+                });
               }
+              // }
             };
 
             this.view.on('click', displayTrac);
