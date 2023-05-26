@@ -147,22 +147,23 @@ export class esriZoomLevelComponent implements OnInit {
             this.view.goTo(extent);
 
             setTimeout(() => {
-              this.OnScreenLoadScale = this.view.scale;
-              this.test = this.view.scale;
-              console.log('Scaler::', this.OnScreenLoadScale);
-              //new range based on percentage
+              if (this.view.scale != 0) {
+                this.OnScreenLoadScale = this.view.scale;
+                console.log('Scaler::', this.OnScreenLoadScale);
+                //new range based on percentage
 
-              this.layerDivisionGraphic.minScale = 300000000;
-              this.layerDivisionGraphic.maxScale = this.OnScreenLoadScale;
+                this.layerDivisionGraphic.minScale = 300000000;
+                this.layerDivisionGraphic.maxScale = this.OnScreenLoadScale;
 
-              this.layerSubDivisionGraphic.minScale =
-                this.OnScreenLoadScale * 0.5;
-              this.layerSubDivisionGraphic.maxScale =
-                this.OnScreenLoadScale * 0.25;
+                this.layerSubDivisionGraphic.minScale =
+                  this.OnScreenLoadScale * 0.5;
+                this.layerSubDivisionGraphic.maxScale =
+                  this.OnScreenLoadScale * 0.25;
 
-              this.layerCMPGraphic.minScale = this.OnScreenLoadScale * 0.15;
+                this.layerCMPGraphic.minScale = this.OnScreenLoadScale * 0.15;
 
-              this.layerCMPGraphic.maxScale = 70;
+                this.layerCMPGraphic.maxScale = 70;
+              }
             }, 1000);
 
             const displayTrac = (event) => {};
