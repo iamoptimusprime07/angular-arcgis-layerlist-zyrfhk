@@ -31,6 +31,8 @@ export class esriZoomLevelComponent implements OnInit {
   layerCMPGraphic: any;
 
   math = Math;
+  OnScreenLoadScale: any;
+  test: any;
 
   constructor(private http: HttpClient) {}
 
@@ -108,14 +110,15 @@ export class esriZoomLevelComponent implements OnInit {
             this.layerSubDivisionGraphic = new GraphicsLayer();
             this.layerCMPGraphic = new GraphicsLayer();
 
-            this.layerDivisionGraphic.minScale = 300000000;
-            this.layerDivisionGraphic.maxScale = 18400000;
+            //older hard coded range
+            // this.layerDivisionGraphic.minScale = 300000000;
+            // this.layerDivisionGraphic.maxScale = 18400000; //this.OnScreenLoadScale
 
-            this.layerSubDivisionGraphic.minScale = 9300000;
-            this.layerSubDivisionGraphic.maxScale = 4600000;
+            // this.layerSubDivisionGraphic.minScale = 9300000;
+            // this.layerSubDivisionGraphic.maxScale = 4600000;
 
-            this.layerCMPGraphic.minScale = 2600000;
-            this.layerCMPGraphic.maxScale = 70;
+            // this.layerCMPGraphic.minScale = 2600000; this.OnScreenLoadScale * 0.4
+            // this.layerCMPGraphic.maxScale = 70;
 
             this.view.map.add(this.layerDivisionGraphic);
             this.view.map.add(this.layerSubDivisionGraphic);
@@ -143,9 +146,31 @@ export class esriZoomLevelComponent implements OnInit {
 
             this.view.goTo(extent);
 
+            setTimeout(() => {
+              this.OnScreenLoadScale = this.view.scale;
+              this.test = this.view.scale;
+              console.log('Scaler::', this.OnScreenLoadScale);
+              //new range based on percentage
+
+              this.layerDivisionGraphic.minScale = 300000000;
+              this.layerDivisionGraphic.maxScale = this.OnScreenLoadScale;
+
+              this.layerSubDivisionGraphic.minScale =
+                this.OnScreenLoadScale * 0.5;
+              this.layerSubDivisionGraphic.maxScale =
+                this.OnScreenLoadScale * 0.25;
+
+              this.layerCMPGraphic.minScale = this.OnScreenLoadScale * 0.15;
+
+              this.layerCMPGraphic.maxScale = 70;
+            }, 1000);
+
             const displayTrac = (event) => {};
 
             const scaleChanged = (event) => {
+              this.test = this.view.scale;
+              console.log('test::::::::::::::::', this.test);
+
               //division level
               //18489297.737236
               if (this.divisionListData.length > 0) {
@@ -193,8 +218,6 @@ export class esriZoomLevelComponent implements OnInit {
                     this.layerDivisionGraphic.add(divgraphicsPic);
 
                     this.layerDivisionGraphic.add(divgraphics);
-
-                    console.log('Graphics::::', this.layerDivisionGraphic);
 
                     //this.layerDivisionGraphic['visible'] = true;
 

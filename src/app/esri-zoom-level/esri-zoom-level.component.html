@@ -3,10 +3,7 @@
   <div id="viewDiv"></div>
 </div>
 
-<div
-  id="heading-for-map"
-  style="padding: 20px; background-color: rgb(235, 227, 227)"
->
+<div id="heading-for-map" style="padding: 20px; background-color: transparent">
   <p>Zoom level: {{ view?.zoom }}</p>
    
   <p>Screen Resolution : {{ screenWidth }}/{{ screenHeight }}</p>
@@ -16,5 +13,9 @@
   Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
 </h1> -->
 
-  <p *ngIf="view?.scale">Scale1:  {{ math.trunc(view?.scale) }}</p>
+  <p *ngIf="view?.scale">
+    Scale:  <b>{{ math.trunc(view?.scale) }}</b>
+  </p>
+
+  <b>{{ OnScreenLoadScale }}</b>
 </div>
