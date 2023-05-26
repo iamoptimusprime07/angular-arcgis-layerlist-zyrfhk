@@ -343,6 +343,8 @@ export class esriZoomLevelComponent implements OnInit {
             this.view.ui.add(scaleBar, {
               position: 'bottom-left',
             });
+
+            this.view.ui.move('zoom', 'bottom-right');
           });
         });
       }
