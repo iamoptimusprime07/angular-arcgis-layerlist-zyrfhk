@@ -4,10 +4,13 @@
 </div>
 
 <div id="heading-for-map" style="padding: 20px; background-color: transparent">
-  <p>Scale based component</p>
-  <p>Zoom level: {{ view?.zoom }}</p>
+  <p>Zoom based component</p>
+  <p class="zero-margin">Zoom level: {{ view?.zoom }}</p>
    
-  <p>Screen Resolution : {{ screenWidth }}/{{ screenHeight }}</p>
+  <p class="zero-margin">
+    Screen Resolution : {{ screenWidth }}/{{ screenHeight }}
+  </p>
+
    
   <!-- <h1 *ngIf="view?.scale">
   Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
@@ -16,8 +19,10 @@
   <!-- <p *ngIf="view?.scale">
     Scale:  <b>{{ math.trunc(view?.scale) }}</b>
   </p> -->
-  <p *ngIf="view?.scale">
+
+  <p *ngIf="view?.scale" class="zero-margin">
     Scale:  <b>{{ view?.scale }}</b>
   </p>
+
   <!-- <b>{{ OnScreenLoadScale }}</b> -->
 </div>

@@ -1,0 +1,112 @@
+#container {
+  height: 100%;
+}
+
+#leftPanel {
+  width: 30%;
+  height: 90vh;
+}
+
+#viewDiv {
+  top: 10%;
+  padding: 0;
+  margin: 0;
+
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  width: 70%;
+  height: 90vh;
+  border: 1px solid #333;
+  transform: scale(1);
+}
+
+.example-container {
+  position: absolute;
+  top: 10%;
+  width: 30%;
+  height: 90vh;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 10px;
+}
+
+.zero-margin{
+  margin:0px;
+}
+
+@media (max-width: 320px) {
+  #leftPanel .example-container {
+    width: 100%;
+  }
+
+  #viewDiv {
+    display: none;
+  }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+  #leftPanel .example-container .example-sidenav-content {
+    width: 20%;
+  }
+
+  #viewDiv {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 767px) {
+  #leftPanel .example-container .example-sidenav-content {
+    width: 20%;
+  }
+
+  #viewDiv {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 993px) {
+  #leftPanel .example-container .example-sidenav-content {
+    width: 20%;
+  }
+
+  #viewDiv {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  #leftPanel .example-sidenav-content .example-container {
+    width: 30%;
+  }
+
+  #viewDiv {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  #leftPanel .example-sidenav-content .example-container {
+    width: 30%;
+  }
+
+  #viewDiv {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 2560px) {
+  #leftPanel .example-container .example-sidenav-content {
+    width: 30%;
+  }
+
+  #viewDiv {
+    width: 70%;
+  }
+}
