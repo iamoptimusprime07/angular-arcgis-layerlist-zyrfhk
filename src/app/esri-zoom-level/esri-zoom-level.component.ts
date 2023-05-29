@@ -112,9 +112,9 @@ export class esriZoomLevelComponent implements OnInit {
 
             //older hard coded range
             this.layerDivisionGraphic.minScale = 300000000;
-            this.layerDivisionGraphic.maxScale = 18400000;
+            this.layerDivisionGraphic.maxScale = 9000000;
 
-            this.layerSubDivisionGraphic.minScale = 9300000;
+            this.layerSubDivisionGraphic.minScale = 8900000;
             this.layerSubDivisionGraphic.maxScale = 4600000;
 
             this.layerCMPGraphic.minScale = 2600000;
@@ -147,23 +147,23 @@ export class esriZoomLevelComponent implements OnInit {
             this.view.goTo(extent);
 
             // setTimeout(() => {
-            //   if (this.view.scale != 0) {
-            //     this.OnScreenLoadScale = this.view.scale;
-            //     console.log('Scaler::', this.OnScreenLoadScale);
-            //     //new range based on percentage
+            //   //if (this.view.scale != 0) {
+            //   this.OnScreenLoadScale = this.view.scale;
+            //   console.log('Scaler::', this.OnScreenLoadScale);
+            //   //new range based on percentage
 
-            //     this.layerDivisionGraphic.minScale = 300000000;
-            //     this.layerDivisionGraphic.maxScale = this.OnScreenLoadScale;
+            //   this.layerDivisionGraphic.minScale = 300000000;
+            //   this.layerDivisionGraphic.maxScale = this.OnScreenLoadScale;
 
-            //     this.layerSubDivisionGraphic.minScale =
-            //       this.OnScreenLoadScale * 0.5;
-            //     this.layerSubDivisionGraphic.maxScale =
-            //       this.OnScreenLoadScale * 0.25;
+            //   this.layerSubDivisionGraphic.minScale =
+            //     this.OnScreenLoadScale - 1;
+            //   this.layerSubDivisionGraphic.maxScale =
+            //     this.OnScreenLoadScale * 0.5;
 
-            //     this.layerCMPGraphic.minScale = this.OnScreenLoadScale * 0.15;
+            //   this.layerCMPGraphic.minScale = this.OnScreenLoadScale * 0.49;
 
-            //     this.layerCMPGraphic.maxScale = 70;
-            //   }
+            //   this.layerCMPGraphic.maxScale = 70;
+            //   //}
             // }, 1000);
 
             const displayTrac = (event) => {};
@@ -287,9 +287,7 @@ export class esriZoomLevelComponent implements OnInit {
 
                   let textSymbol = {
                     type: 'text',
-
                     color: 'green',
-
                     text: item['prjUid'],
                   };
 

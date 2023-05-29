@@ -13,8 +13,13 @@
   Scale: {{ (view?.scale | number: '1.0-0').replaceAll(',', '') }}
 </h1> -->
 
-  <p *ngIf="view?.scale">
+  <!-- <p *ngIf="view?.scale">
     Scale:  <b>{{ math.trunc(view?.scale) }}</b>
+  </p> -->
+
+
+  <p *ngIf="view?.scale">
+    Scale:  <b>{{ view?.scale}}</b>
   </p>
 
   <!-- <b>{{ OnScreenLoadScale }}</b> -->
