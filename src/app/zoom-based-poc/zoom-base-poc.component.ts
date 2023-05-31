@@ -32,7 +32,7 @@ export class esriZoomBasePocComponent implements OnInit {
   OnScreenLoadScale: any;
 
   test: any;
-
+  isRightArrowButton: boolean = true;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -359,5 +359,9 @@ export class esriZoomBasePocComponent implements OnInit {
         });
       }
     );
+  }
+
+  onClose() {
+    this.isRightArrowButton = !this.isRightArrowButton;
   }
 }

@@ -1,6 +1,96 @@
 <div id="container">
-  <div id="leftPanel"></div>
-  <div id="viewDiv"></div>
+  <div id="leftPanel">
+    <mat-drawer-container class="example-container">
+      <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+        <div class="row row-cols-1 g-3">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                  This is a longer card with supporting text below as a natural
+                  lead-in to additional content. This content is a little bit
+                  longer.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                  This is a longer card with supporting text below as a natural
+                  lead-in to additional content. This content is a little bit
+                  longer.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                  This is a longer card with supporting text below as a natural
+                  lead-in to additional content.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                  This is a longer card with supporting text below as a natural
+                  lead-in to additional content.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-drawer>
+
+      <div class="example-sidenav-content">
+        <!-- <button  mat-raised-button color="warn" (click)="drawer.toggle()">
+       Show 
+      </button>
+      <br>
+      <button mat-raised-button color="primary" (click)="drawer.toggle()">
+        Hide 
+      </button> -->
+      </div>
+    </mat-drawer-container>
+  </div>
+  <div class="btn-style-close">
+    <button
+      *ngIf="!isRightArrowButton"
+      mat-raised-button
+      color="warn"
+      (click)="drawer.toggle(); onClose()"
+    >
+      open
+    </button>
+  </div>
+  <div class="btn-style">
+    <button
+      *ngIf="isRightArrowButton"
+      mat-raised-button
+      color="warn"
+      (click)="drawer.toggle(); onClose()"
+    >
+      close
+    </button>
+  </div>
+  <!-- [ngClass]="{'map-view':isLeftArrowButton,'map-view-close':!isLeftArrowButton}" -->
+  <div
+    [ngClass]="{
+      'map-view ': isRightArrowButton,
+      'map-view-close ': !isRightArrowButton
+    }"
+    id="viewDiv"
+  ></div>
 </div>
 
 <div id="heading-for-map" style="padding: 20px; background-color: transparent">

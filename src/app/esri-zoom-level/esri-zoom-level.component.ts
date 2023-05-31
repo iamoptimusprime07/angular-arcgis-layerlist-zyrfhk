@@ -33,7 +33,7 @@ export class esriZoomLevelComponent implements OnInit {
   math = Math;
   OnScreenLoadScale: any;
   test: any;
-
+  isRightArrowButton: boolean = true;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -345,6 +345,10 @@ export class esriZoomLevelComponent implements OnInit {
         });
       }
     );
+  }
+
+  onClose() {
+    this.isRightArrowButton = !this.isRightArrowButton;
   }
 }
 
