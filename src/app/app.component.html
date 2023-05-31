@@ -1,8 +1,12 @@
 <div class="toolbar" role="banner">
   <span class="heading">Network Change Management</span>
   <div class="spacer"></div>
+
+  <button (click)="zoomChangedEvent()">Zoom Change</button>
+  <button (click)="scaleChangedEvent()">Scale Change</button>
 </div>
 <!-- <app-esri-map> </app-esri-map> -->
-<!-- <app-feature-layer-two></app-feature-layer-two> -->
+<app-feature-layer-two *ngIf="scaleChange"></app-feature-layer-two>
 
-<app-zoom-base-poc></app-zoom-base-poc>
+<app-zoom-base-poc *ngIf="zoomChange"></app-zoom-base-poc>
+
