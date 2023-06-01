@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import { loadModules } from 'esri-loader';
+import SpatialReference = require('esri/geometry/SpatialReference');
 
 @Component({
   selector: 'app-zoom-base-poc',
@@ -115,11 +116,44 @@ export class esriZoomBasePocComponent implements OnInit {
         });
 
         map.load().then(() => {
+          let pointExtentList = [
+            [-13515012.912491988, 6027451.476803078],
+
+            [-9537841.456758756, 4058433.62817746],
+          ];
+
+          let multipoint = new Multipoint(pointExtentList);
+
           this.view = new MapView({
             map: map,
-
             container: 'viewDiv',
+            constraints: { snapToZoom: false },
           });
+
+          this.view.constraints = {
+            geometry: {
+              // Constrain lateral movement to Lower Manhattan
+              type: 'extent',
+              xmin: multipoint['extent']['xmin'],
+
+              ymin: multipoint['extent']['ymin'],
+
+              xmax: multipoint['extent']['xmax'],
+
+              ymax: multipoint['extent']['ymax'],
+
+              spatialReference: {
+                wkid: 3857,
+              },
+            },
+            minScale: 300000000, // User cannot zoom out beyond a scale of 1:500,000
+            maxScale: 0,
+            // minScale: 300000000, // User cannot zoom out beyond a scale of 1:500,000
+            // maxScale: 70, // User can overzoom tiles
+            rotationEnabled: false, // Disables map rotation
+          };
+
+          console.log('this.view.constraints::::', this.view.constraints);
 
           map.when(() => {
             //0 - 4 division
@@ -140,14 +174,6 @@ export class esriZoomBasePocComponent implements OnInit {
             //'heading-for-map' id is refer as string over here
 
             this.view.ui.add('heading-for-map', 'top-right');
-
-            let pointExtentList = [
-              [-13515012.912491988, 6027451.476803078],
-
-              [-9537841.456758756, 4058433.62817746],
-            ];
-
-            let multipoint = new Multipoint(pointExtentList);
 
             let extent = new Extent({
               xmin: multipoint['extent']['xmin'],
